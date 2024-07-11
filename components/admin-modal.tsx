@@ -35,7 +35,7 @@ const AdminModal = () => {
       const accessKey = encryptedKey && atob(encryptedKey);
 
       if (path) {
-        const auth = accessKey && accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY.toString()
+        const auth = accessKey && accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()
         if (accessKey && auth){
           setOpen(false)
           router.push('/admin')
@@ -54,7 +54,7 @@ const AdminModal = () => {
 
   const validatePassKey = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    const auth = passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY.toString()
+    const auth = passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()
     if (auth) {
       const encryptedKey = btoa(passkey);
       localStorage.setItem('accessKey', encryptedKey);
