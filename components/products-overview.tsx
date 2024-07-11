@@ -1,36 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
 import ProductCard from './product-card'
+import { getAllProducts } from '@/lib/actions/product.actions'
+import { Product } from '@/lib/database/models/product.model'
 
-const getMockupProducts = () => {
-  return [
-    {
-      _id: '01',
-      thumbnail: '/assets/images/product.png',
-      name: '3-tier red velvet cake',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-      price: 45.90
-    },
-    {
-      _id: '02',
-      thumbnail: '/assets/images/product.png',
-      name: '3-tier red velvet cake',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-      price: 45.90
-    },
-    {
-      _id: '03',
-      thumbnail: '/assets/images/product.png',
-      name: '3-tier red velvet cake',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-      price: 45.90
-    }
-  ]
-}
+const ProductsOverview = async () => {
 
-const ProductsOverview = () => {
-
-  const data = getMockupProducts()
+  const {products} = await getAllProducts({visible: true, limit: 3})
 
   return (
     <div className='min-h-screen flex flex-col justify-center items-center lg:gap-12 gap-4 bg-foreground p-10'>
@@ -39,7 +15,7 @@ const ProductsOverview = () => {
         <Link className='lg:font-semibold text-[18px] lg:text-[20px] text-accent' href="/shop">See all</Link>
       </div>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-        {data.map(p => (
+        {products.map((p: Product) => (
           <ProductCard key={p._id} product={p}/>
         ))}
       </div>

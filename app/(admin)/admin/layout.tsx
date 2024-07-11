@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AdminNavbar from '@/components/admin/navbar'
+import AdminHeader from '@/components/admin/header'
 
 export const metadata: Metadata = {
   title: "Bakery | Admin",
@@ -12,9 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="grid min-h-screen w-full grid-cols-[280px_1fr]">
+    <main className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
       <AdminNavbar />
-      {children}
+      <div className="flex flex-col">
+        <AdminHeader />
+        {children}
+      </div>
     </main >
   );
 }
