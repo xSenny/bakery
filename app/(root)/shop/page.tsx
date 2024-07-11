@@ -102,7 +102,7 @@ const ShopPage = ({searchParams}: SearchParamProps) => {
   const isAdmin = searchParams?.admin === 'true'
 
   return (
-    <main className='min-h-screen bg-background flex gap-4 flex-col pb-10'>
+    <main className='min-h-screen bg-background flex gap-4 flex-col pb-10 px-10'>
       {isAdmin && <AdminModal />}
       <div className='justify-center flex'>
         <Header />

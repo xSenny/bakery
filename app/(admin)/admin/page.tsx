@@ -3,7 +3,7 @@ import React from 'react'
 const AdminPage = () => {
   return (
     <div className='bg-foreground'>
-      Admin page
+      Products Page
     </div>
   )
 }
