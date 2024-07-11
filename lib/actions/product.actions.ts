@@ -18,17 +18,20 @@ export const createProduct = async (product: CreateProductParams) => {
   }
 }
 
-export const getAllProducts = async ({visible = false, limit = 10}) => {
+export const getAllProducts = async ({visible = false, limit}: {visible: boolean, limit?: number}) => {
   try {
     await connectToDatabase();
-
+    let products;
     if (visible) {
-      const products = await Product.find({visible: true}).limit(limit)
-
+      if (limit)
+        products = await Product.find({visible: true}).limit(limit)
+      else products = await Product.find({visible: true})
       return JSON.parse(JSON.stringify({products}))
     }
 
-    const products = await Product.find().limit(limit);
+    if (limit)
+      products = await Product.find().limit(limit);
+    else products = await Product.find()
     return JSON.parse(JSON.stringify({products}))
   } catch (e) {
     return {
