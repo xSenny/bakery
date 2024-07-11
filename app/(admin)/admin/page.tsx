@@ -11,7 +11,7 @@ const AdminPage = async () => {
 
   return (
     <div className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 bg-foreground'>
-      <Card>
+      <Card className='max-w-[93vw]'>
         <CardHeader>
           <CardTitle>Products</CardTitle>
           <CardDescription>Manage your bakery products</CardDescription>

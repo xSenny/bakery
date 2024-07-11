@@ -38,7 +38,7 @@ export function ProductsDataTable<TData, TValue>({
   return (
     <div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="overflow-x-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
