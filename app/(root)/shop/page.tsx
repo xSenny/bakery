@@ -1,7 +1,11 @@
 import Header from '@/components/header'
 import ProductCard from '@/components/product-card'
 import React from 'react'
+import AdminModal from '@/components/admin-modal'
 
+type SearchParamProps = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 const getMockupProducts = () => {
   return [
@@ -92,12 +96,14 @@ const getMockupProducts = () => {
   ]
 }
 
-const ShopPage = () => {
+const ShopPage = ({searchParams}: SearchParamProps) => {
 
   const data = getMockupProducts()
+  const isAdmin = searchParams?.admin === 'true'
 
   return (
     <main className='min-h-screen bg-background flex gap-4 flex-col pb-10'>
+      {isAdmin && <AdminModal />}
       <div className='justify-center flex'>
         <Header />
       </div>
