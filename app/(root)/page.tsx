@@ -8,7 +8,7 @@ export default function Home() {
     <main className="w-full min-h-screen bg-foreground">
       <Hero />
       <ProductsOverview />
-      
+      <Footer />
     </main>
   );
 }
