@@ -3,6 +3,7 @@ import { Heart, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import AdminModal from './admin-modal'
 
 const Header = () => {
   return (
@@ -14,7 +15,7 @@ const Header = () => {
         ))}
       </div>
       <div className="flex gap-8">
-        <Link href="/admin">Admin</Link>
+        <Link href="?admin=true">Admin</Link>
         <div className="flex gap-6">
           <Heart />
           <ShoppingCart />
