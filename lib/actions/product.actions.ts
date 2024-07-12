@@ -10,6 +10,12 @@ export const createProduct = async (product: CreateProductParams) => {
   try {
     await connectToDatabase();
 
+    if (product.price <= 0) {
+      return {
+        error: 'The price needs to be a positive number!'
+      }
+    }
+
     const createdProduct = await Product.create(product);
 
     revalidatePath('/admin')

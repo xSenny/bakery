@@ -23,6 +23,7 @@ import { Switch } from "../ui/switch"
 import { createProduct } from "@/lib/actions/product.actions"
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {useRouter} from 'next/navigation'
+import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
   name: z.string().min(3, 'The product name should be atleast 3 characters'),
@@ -38,6 +39,7 @@ const ProductForm = () => {
   const {startUpload} = useUploadThing('imageUploader')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { toast } = useToast()
 
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,9 +72,20 @@ const ProductForm = () => {
       thumbnail: uploadedImageUrl
     })
 
-    console.log(createdProduct, 'Created Product')
+    if (createdProduct.error) {
+      toast({
+        title: "An error occured!",
+        description: createdProduct.error,
+      })
+      setIsLoading(false)
+    } else {
+      toast({
+        title: "Your product was created successfully"
+      })
+      router.push('/admin')
+    }
 
-    router.push('/admin')
+    
   }
 
   return (
