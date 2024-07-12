@@ -11,22 +11,17 @@ import {
 import Image from 'next/image'
 import { Button } from './ui/button'
 import { Heart } from 'lucide-react'
+import { Product } from '@/lib/database/models/product.model'
 
 type ProductCardProps = {
-  product: {
-    _id: string,
-    thumbnail: string,
-    name: string,
-    description: string,
-    price: number
-  }
+  product: Product
 }
 
 const ProductCard = ({product}: ProductCardProps) => {
   return (
     <Card>
       <CardContent className='p-4 max-w-[380px] relative'>
-        <Image src={product.thumbnail} width={360} height={265} alt={product.name}/>
+        <Image src={product.thumbnail} width={360} height={265} alt={product.name} className='object-cover w-full h-full'/>
         <div className='flex flex-col gap-4 text-wrap mb-10 mt-4'>
           <p className='text-[25px] font-bold'>{product.name}</p>
           <p className='text-[15px] '>{product.description}</p>
