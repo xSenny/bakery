@@ -4,6 +4,7 @@ import { getAllProducts } from '@/lib/actions/product.actions'
 import { columns } from '@/components/products-table/columns'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import {Button} from '@/components/ui/button'
+import Link from 'next/link'
 
 const AdminPage = async () => {
 
@@ -20,8 +21,10 @@ const AdminPage = async () => {
           <ProductsDataTable columns={columns} data={products}/>
         </CardContent>
         <CardFooter className="justify-center">
-          <Button size="sm" variant="ghost" className="gap-1">
-            Add Product
+          <Button size="sm" variant="ghost" className="gap-1" asChild>
+            <Link href="/admin/new">
+              Add Product
+            </Link>
           </Button>
         </CardFooter>
       </Card>

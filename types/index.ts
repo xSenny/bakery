@@ -2,6 +2,6 @@ export type CreateProductParams = {
   name: string;
   description: string;
   thumbnail: string;
-  price: string;
+  price: number;
   visible?: boolean
 }

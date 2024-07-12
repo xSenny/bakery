@@ -3,12 +3,16 @@
 import { CreateProductParams } from "@/types"
 import { connectToDatabase } from "../database"
 import Product from "../database/models/product.model";
+import { revalidatePath } from 'next/cache'
+
 
 export const createProduct = async (product: CreateProductParams) => {
   try {
     await connectToDatabase();
 
     const createdProduct = await Product.create(product);
+
+    revalidatePath('/admin')
 
     return JSON.parse(JSON.stringify({createdProduct}))
   } catch (e) {
