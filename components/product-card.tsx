@@ -11,10 +11,11 @@ import {
 import Image from 'next/image'
 import { Button } from './ui/button'
 import { Heart } from 'lucide-react'
-import { Product } from '@/lib/database/models/product.model'
+import { IProduct } from '@/lib/database/models/product.model'
+import AddToCart from '@/components/add-to-cart'
 
 type ProductCardProps = {
-  product: Product
+  product: IProduct
 }
 
 const ProductCard = ({product}: ProductCardProps) => {
@@ -28,7 +29,7 @@ const ProductCard = ({product}: ProductCardProps) => {
         </div>
         <div className='flex justify-between'>
           <p className='text-[25px] font-medium'>{product.price}$</p>
-          <Button className="bg-primary">Add to cart</Button>
+          <AddToCart product={product}/>
         </div>
         <Heart className="text-black absolute top-7 right-7"/>
       </CardContent>
