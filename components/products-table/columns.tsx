@@ -4,7 +4,7 @@ import { Product } from "@/lib/database/models/product.model"
 import { ColumnDef } from "@tanstack/react-table"
 import Image from 'next/image'
 import { MoreHorizontal } from "lucide-react"
- 
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { deleteProduct } from "@/lib/actions/product.actions"
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -44,7 +45,24 @@ export const columns: ColumnDef<Product>[] = [
     id: "actions",
     cell: ({ row }) => {
       const product = row.original
+
+      const {toast} = useToast()
  
+      const handleDeleteProduct = async (id: string) => {
+        const deleteAction = await deleteProduct(id);
+
+        if (deleteAction.error) {
+          toast({
+            title: "An error occured!",
+            description: deleteAction.error,
+          })
+        } else {
+          toast({
+            title: "Product deleted successfully",
+          })
+        }
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -56,12 +74,8 @@ export const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product._id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+              onClick={() => handleDeleteProduct(product._id)}
+            >Delete this product</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
