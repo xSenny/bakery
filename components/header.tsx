@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import AdminModal from './admin-modal'
+import Cart from '@/components/cart'
 
 const Header = () => {
   return (
@@ -18,7 +19,7 @@ const Header = () => {
         <Link href="?admin=true">Admin</Link>
         <div className="flex gap-6">
           <Heart />
-          <ShoppingCart />
+          <Cart />
         </div>
       </div>
     </div>
