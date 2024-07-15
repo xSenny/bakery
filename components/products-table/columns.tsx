@@ -1,11 +1,12 @@
 "use client"
 
-import { Product } from "@/lib/database/models/product.model"
+import { IProduct } from "@/lib/database/models/product.model"
 import { ColumnDef } from "@tanstack/react-table"
 import Image from 'next/image'
 import { MoreHorizontal } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { deleteProduct } from "@/lib/actions/product.actions"
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<IProduct>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -47,6 +48,8 @@ export const columns: ColumnDef<Product>[] = [
       const product = row.original
 
       const {toast} = useToast()
+
+      const router = useRouter();
  
       const handleDeleteProduct = async (id: string) => {
         const deleteAction = await deleteProduct(id);
@@ -54,13 +57,17 @@ export const columns: ColumnDef<Product>[] = [
         if (deleteAction.error) {
           toast({
             title: "An error occured!",
-            description: deleteAction.error,
+            description: deleteAction.error as string,
           })
         } else {
           toast({
             title: "Product deleted successfully",
           })
         }
+      }
+
+      const handleEditProduct = () => {
+        router.push(`/admin/${product._id}/edit`)
       }
 
       return (
@@ -76,7 +83,9 @@ export const columns: ColumnDef<Product>[] = [
             <DropdownMenuItem
               onClick={() => handleDeleteProduct(product._id)}
             >Delete this product</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleEditProduct}
+            >Edit this product</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

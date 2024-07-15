@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useUploadThing } from "@/lib/uploadthing"
 import { Textarea } from "../ui/textarea"
 import FileUploader from "../file-uploader"
@@ -24,6 +24,8 @@ import { createProduct } from "@/lib/actions/product.actions"
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {useRouter} from 'next/navigation'
 import { useToast } from "@/components/ui/use-toast"
+import { IProduct } from "@/lib/database/models/product.model"
+import { updateProduct } from "../../lib/actions/product.actions"
 
 const formSchema = z.object({
   name: z.string().min(3, 'The product name should be atleast 3 characters'),
@@ -33,7 +35,12 @@ const formSchema = z.object({
   visible: z.boolean()
 })
 
-const ProductForm = () => {
+type ProductFormProps = {
+  type: 'Create' | 'Update',
+  product?: IProduct
+}
+
+const ProductForm = ({type, product}: ProductFormProps) => {
   
   const [files, setFiles] = useState<File[]>([])
   const {startUpload} = useUploadThing('imageUploader')
@@ -41,16 +48,37 @@ const ProductForm = () => {
   const router = useRouter()
   const { toast } = useToast()
 
+  useEffect(() => {
+    if (type === 'Update' && product === undefined) {
+      toast({
+        title: 'This product does not exist.'
+      })
+      router.push('/')
+    }
+  }, [])
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: type === 'Create' ? {
       name: '',
       description: '',
       thumbnailUrl: '',
       price: '',
       visible: false
-    },
+    } : product !== undefined ? {
+      name: product.name,
+      description: product.description,
+      thumbnailUrl: product.thumbnail,
+      price: `${product.price}`,
+      visible: product.visible,
+    } : {
+      name: '',
+      description: '',
+      thumbnailUrl: '',
+      price: '',
+      visible: false
+    }
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -64,28 +92,49 @@ const ProductForm = () => {
 
     const {description, name, price, visible} = values;
     
-    const createdProduct = await createProduct({
-      description,
-      name,
-      price: Number(price),
-      visible,
-      thumbnail: uploadedImageUrl
-    })
+    if (type === 'Create') {
+      const createdProduct = await createProduct({
+        description,
+        name,
+        price: Number(price),
+        visible,
+        thumbnail: uploadedImageUrl
+      })
 
-    if (createdProduct.error) {
-      toast({
-        title: "An error occured!",
-        description: createdProduct.error,
+      if (createdProduct.error) {
+        toast({
+          title: "An error occured!",
+          description: createdProduct.error,
+        })
+        setIsLoading(false)
+      } else {
+        toast({
+          title: "Your product was created successfully"
+        })
+        router.push('/admin')
+      }
+    } else if (product !== undefined) {
+      const updatedProduct = await updateProduct(product._id, {
+        description,
+        name,
+        price: Number(price),
+        visible,
+        thumbnail: uploadedImageUrl
       })
-      setIsLoading(false)
-    } else {
-      toast({
-        title: "Your product was created successfully"
-      })
-      router.push('/admin')
+
+      if (updatedProduct.error) {
+        toast({
+          title: "An error occured!",
+          description: updatedProduct.error as string,
+        })
+        setIsLoading(false)
+      } else {
+        toast({
+          title: "The product was updated successfully"
+        })
+        router.push('/admin')
+      }
     }
-
-    
   }
 
   return (
@@ -175,7 +224,11 @@ const ProductForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isLoading}>{isLoading ? 'Creating...' : 'Create'}</Button>
+          {type === 'Create' ? (
+            <Button type="submit" disabled={isLoading}>{isLoading ? 'Creating...' : 'Create'}</Button>
+          ) : (
+            <Button type="submit" disabled={isLoading}>{isLoading ? 'Updating...' : 'Update'}</Button>
+          )}
         </div>
       </form>
     </Form>
