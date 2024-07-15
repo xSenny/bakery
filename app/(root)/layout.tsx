@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bakery | Admin",
+  title: "Bakery | Home",
   description: "Check and shop our products!",
 };
 

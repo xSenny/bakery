@@ -3,7 +3,7 @@ import ProductCard from '@/components/product-card'
 import React from 'react'
 import AdminModal from '@/components/admin-modal'
 import { getAllProducts } from '@/lib/actions/product.actions';
-import { Product } from '@/lib/database/models/product.model';
+import { IProduct } from '@/lib/database/models/product.model';
 
 type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -23,7 +23,7 @@ const ShopPage = async ({searchParams}: SearchParamProps) => {
       <h1 className='text-center text-[30px] md:text-[40px] lg:text-[50px] font-semibold text-accent'>Shop our products</h1>
       <div className='w-full h-full flex justify-center'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {products.map((p: Product) => (
+          {products.map((p: IProduct) => (
             <ProductCard product={p}/>
           ))}
         </div>
