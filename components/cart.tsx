@@ -49,34 +49,46 @@ const Cart = () => {
   const {toast} = useToast()
 
   const getData = (e: boolean) => {
-    //@ts-ignore
-    const localCart: CartType = JSON.parse(localStorage.getItem('cart'));
-    if (localCart) setCart(localCart)
+    console.log(e)
+    if (e === true) {
+      //@ts-ignore
+      const localCart: CartType = JSON.parse(localStorage.getItem('cart'));
+      if (localCart) setCart(localCart)
+    }
     setOpen(e)
   }
 
-  const saveCart = () => {
-    localStorage.setItem('cart', JSON.stringify(cart))
+  const saveCart = (cartItems: CartItemType[], total: number) => {
+    localStorage.setItem('cart', JSON.stringify({cartItems, total}))
     console.log('Set')
   }
 
   const deleteItem = (id: string) => {
     const updatedCart = cart.cartItems.filter(item => item._id !== id)
-    setCart(cart => ({...cart, cartItems: updatedCart}))
+    let total = 0;
+    updatedCart.forEach(i => total += i.amount * i.price)
+    console.log(updatedCart.length)
+    setCart({cartItems: updatedCart, total})
     toast({
       title: 'Deleted the product!',
       variant: 'destructive'
     })
-    saveCart()
+
+    console.log('updated cart', cart.cartItems.length)
+
+    saveCart(updatedCart, total)
   }
 
   const addAmount = (amount: number, id: string) => {
 
     const foundItemIndex = cart.cartItems.findIndex(item => item._id === id);
 
+    const total = cart.total + amount * cart.cartItems[foundItemIndex].price
+
+    setCart(cart => ({...cart, total}))
+
     if (cart.cartItems[foundItemIndex].amount + amount <= 0) {
       deleteItem(id);
-      saveCart()
       return;
     }
 
@@ -87,7 +99,7 @@ const Cart = () => {
       toast({
         title: 'Changed the amount of products!'
       })
-      saveCart()
+      saveCart(updatedCart, total)
     }
   }
 
