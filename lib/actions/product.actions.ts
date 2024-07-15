@@ -49,3 +49,26 @@ export const getAllProducts = async ({visible = false, limit}: {visible: boolean
     }
   }
 }
+
+export const deleteProduct = async (id: string) => {
+  try {
+    await connectToDatabase();
+
+    const productToDelete = await Product.findById(id);
+    if (!productToDelete) {
+      return {
+        error: 'This product does not exist at the moment!'
+      }
+    }
+
+    await Product.findByIdAndDelete(id);
+    revalidatePath('/admin')
+    return {
+      success: true
+    }
+  } catch (e) {
+    return {
+      error: e
+    }
+  }
+}
