@@ -1,6 +1,6 @@
 import { model, models, Schema } from "mongoose";
 
-export type Product = {
+export type IProduct = {
   _id: string,
   name: string,
   description: string,

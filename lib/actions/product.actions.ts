@@ -2,7 +2,7 @@
 
 import { CreateProductParams } from "@/types"
 import { connectToDatabase } from "../database"
-import Product from "../database/models/product.model";
+import Product, {IProduct} from "../database/models/product.model";
 import { revalidatePath } from 'next/cache'
 
 
@@ -65,6 +65,49 @@ export const deleteProduct = async (id: string) => {
     revalidatePath('/admin')
     return {
       success: true
+    }
+  } catch (e) {
+    return {
+      error: e
+    }
+  }
+}
+
+export const getProduct = async (id: string) => {
+  try {
+    await connectToDatabase();
+
+    const product = await Product.findById(id)
+    if (!product) {
+      return {
+        error: 'This product does not exist at the moment!'
+      }
+    }
+
+    return {product};
+
+  } catch (e) {
+    return {
+      error: e
+    }
+  }
+}
+
+export const updateProduct = async (id: string, product: CreateProductParams) => {
+  try {
+    await connectToDatabase();
+
+    const productToUpdate = await Product.findById(id);
+    if (!productToUpdate) {
+      return {
+        error: 'This product does not exist anymore.'
+      }
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(id, product);
+    revalidatePath('/admin')
+    return {
+      updatedProduct
     }
   } catch (e) {
     return {
