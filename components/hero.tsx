@@ -13,7 +13,9 @@ const Hero = () => {
         <div className='flex items-center flex-col gap-5'>
           <h1 className="text-primary text-[30px] lg:text-[50px] font-bold w-[70%]">Sweet moments, freshly baked with love</h1>
           <p className="text-black text-[18px] lg:text-[20px] w-[70%]">Customized cakes, treats and every thing sweet for all your special moments.</p>
-          <Button className="bg-primary">Shop now</Button>
+          <Button className="bg-primary" asChild>
+            <Link href="/shop">Shop now</Link>
+          </Button>
           <div className="flex gap-8 text-primary">
             <Link href="https://instagram.com">
               <Instagram />
