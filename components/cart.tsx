@@ -106,7 +106,9 @@ const Cart = () => {
   return (
     <>
       <Sheet onOpenChange={getData} open={open}>
-        <SheetTrigger><ShoppingCart /></SheetTrigger>
+        <SheetTrigger className="flex items-center gap-2">
+          <ShoppingCart /> <span className="sm:hidden">{' '} Cart</span>
+        </SheetTrigger>
         <SheetContent className="p-10">
           <SheetHeader>
             <SheetTitle className="text-accent">

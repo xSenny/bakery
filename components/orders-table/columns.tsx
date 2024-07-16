@@ -63,7 +63,7 @@ export const columns: ColumnDef<IOrder>[] = [
               <DialogTitle>The order content:</DialogTitle>
               <DialogDescription>
                 {list.map(l => (
-                  <p>{l}</p>
+                  <p key={l}>{l}</p>
                 ))}
               </DialogDescription>
             </DialogHeader>

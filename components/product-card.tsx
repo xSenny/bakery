@@ -31,7 +31,6 @@ const ProductCard = ({product}: ProductCardProps) => {
           <p className='text-[25px] font-medium'>{product.price}$</p>
           <AddToCart product={product}/>
         </div>
-        <Heart className="text-black absolute top-7 right-7"/>
       </CardContent>
     </Card>
   )
