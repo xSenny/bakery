@@ -22,7 +22,7 @@ export const getAllOrders = async () => {
   try {
     await connectToDatabase();
 
-    const orders: IOrder[] = await Order.find()
+    const orders: IOrder[] = await Order.find().sort({createdAt: 'desc'})
 
     return JSON.parse(JSON.stringify({orders}))
   } catch (e) {
