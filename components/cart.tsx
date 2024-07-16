@@ -126,7 +126,7 @@ const Cart = () => {
               </div>
               <div className="text-accent flex justify-between w-full gap-5">
                 <Button onClick={() => setOpen(false)}>Continue Shopping</Button>
-                <Button variant={'ghost'} onClick={() => router.push('/checkout')}>Checkout</Button>
+                <Button variant={'ghost'} onClick={() => router.push('/shop/checkout')}>Checkout</Button>
               </div>
             </footer>
           </div>

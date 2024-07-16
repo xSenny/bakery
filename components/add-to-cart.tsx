@@ -3,8 +3,10 @@
 import { Button } from './ui/button'
 import { IProduct } from '@/lib/database/models/product.model'
 import { Cart, CartItem } from '@/types'
+import { useToast } from './ui/use-toast'
 
 const AddToCart = ({product}: {product: IProduct}) => {
+  const {toast} = useToast();
 
   const handleAddToCart = () => {
     // @ts-ignore
@@ -21,6 +23,10 @@ const AddToCart = ({product}: {product: IProduct}) => {
       cart.cartItems.push({...product, amount: 1});
     }
     cart.total += product.price;
+
+    toast({
+      title: `${product.name} added in your cart!`,
+    })
 
     localStorage.setItem('cart', JSON.stringify(cart))
     console.log(cart.cartItems)
