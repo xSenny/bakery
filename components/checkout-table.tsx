@@ -10,19 +10,26 @@ import {
   TableFooter
 } from "@/components/ui/table"
 import {useState, useEffect } from 'react'
-import {CartItem, CartType} from '@/types'
+import {CartItem, Cart} from '@/types'
+import { useRouter } from "next/navigation"
 
 const CheckoutTable = () => {
 
-  const [cart, setCart] = useState<CartType>({
+  const [cart, setCart] = useState<Cart>({
     cartItems: [],
     total: 0
   })
 
+  const router = useRouter()
+
   const getData = () => {
     //@ts-ignore
-    const localCart: CartType = JSON.parse(localStorage.getItem('cart'));
-    if (localCart) setCart(localCart)
+    const localCart: Cart = JSON.parse(localStorage.getItem('cart'));
+    if (localCart) {
+      if (localCart.cartItems.length > 0) setCart(localCart)
+      else router.push('/')
+    }
+    else router.push('/')
   }
 
   useEffect(() => {
@@ -40,7 +47,7 @@ const CheckoutTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {cart.cartItems.map((item: CartItem, i) => (
+        {cart.cartItems.map((item: CartItem, i: number) => (
           <TableRow key={i}>
             <TableCell className="font-medium">{item.name}</TableCell>
             <TableCell>{item.amount}</TableCell>

@@ -14,6 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Cart } from "@/types"
+import { createOrder } from "@/lib/actions/order.actions"
+import { useToast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Enter your full name!'),
@@ -32,11 +36,40 @@ const CheckoutForm = () => {
     },
   })
 
+  const { toast } = useToast()
+  const router = useRouter()
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { address, phoneNumber, fullName } = values;
+
+    //@ts-ignore
+    const cart: Cart = JSON.parse(window.localStorage.getItem('cart'))
+    let description = '';
+    cart.cartItems.forEach((item, i) => {
+      description += `${i + 1}. ${item.name} - ${item.amount}x\n`
+    })
+    const createdOrder = await createOrder({
+      address,
+      phoneNumber,
+      fullName,
+      description,
+      price: cart.total,
+      status: 'Pending',
+      createdAt: new Date()
+    })
+    if (!createdOrder.error) {
+      toast({
+        title: 'Order created successfully'
+      })
+      router.push('/')
+      window.localStorage.removeItem('cart')
+    } else {
+      toast({
+        title: 'An error occured',
+        description: createdOrder.error as string
+      })
+    }
   }
 
   return (
