@@ -8,13 +8,12 @@ type EditPageParams = {
   }
 }
 
-const EditPage = async ({params}: EditPageParams) => {
-
-  const {product} = await getProduct(params.id);
+const EditPage = async ({ params }: EditPageParams) => {
+  const { product } = await getProduct(params.id)
 
   return (
     <div className="p-8">
-      <ProductForm type="Update" product={product}/>
+      <ProductForm type="Update" product={product} />
     </div>
   )
 }

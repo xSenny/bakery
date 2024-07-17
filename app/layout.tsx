@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/toaster"
+import type { Metadata } from 'next'
+import { Montserrat } from 'next/font/google'
+import './globals.css'
+import { Toaster } from '@/components/ui/toaster'
 
-const montSerrat = Montserrat({ subsets: ["latin"] });
+const montSerrat = Montserrat({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Bakery",
-  description: "Check and shop our products!",
-};
+  title: 'Bakery',
+  description: 'Check and shop our products!',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -22,5 +22,5 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
-  );
+  )
 }

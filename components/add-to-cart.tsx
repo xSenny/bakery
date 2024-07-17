@@ -5,24 +5,24 @@ import { IProduct } from '@/lib/database/models/product.model'
 import { Cart, CartItem } from '@/types'
 import { useToast } from './ui/use-toast'
 
-const AddToCart = ({product}: {product: IProduct}) => {
-  const {toast} = useToast();
+const AddToCart = ({ product }: { product: IProduct }) => {
+  const { toast } = useToast()
 
   const handleAddToCart = () => {
     // @ts-ignore
     const cart: Cart = JSON.parse(localStorage.getItem('cart')) || {
       cartItems: [],
-      total: 0
+      total: 0,
     }
 
-    const foundItem: CartItem | undefined = cart.cartItems.find(item => item._id === product._id);
+    const foundItem: CartItem | undefined = cart.cartItems.find(item => item._id === product._id)
 
     if (typeof foundItem !== 'undefined') {
-      foundItem.amount++;
+      foundItem.amount++
     } else {
-      cart.cartItems.push({...product, amount: 1});
+      cart.cartItems.push({ ...product, amount: 1 })
     }
-    cart.total += product.price;
+    cart.total += product.price
 
     toast({
       title: `${product.name} added in your cart!`,
@@ -32,7 +32,11 @@ const AddToCart = ({product}: {product: IProduct}) => {
     console.log(cart.cartItems)
   }
 
-  return <Button className="bg-primary" onClick={handleAddToCart}>Add to cart</Button>
+  return (
+    <Button className="bg-primary" onClick={handleAddToCart}>
+      Add to cart
+    </Button>
+  )
 }
 
-export default AddToCart;
+export default AddToCart

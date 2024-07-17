@@ -7,29 +7,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter
-} from "@/components/ui/table"
-import {useState, useEffect } from 'react'
-import {CartItem, Cart} from '@/types'
-import { useRouter } from "next/navigation"
+  TableFooter,
+} from '@/components/ui/table'
+import { useState, useEffect } from 'react'
+import { CartItem, Cart } from '@/types'
+import { useRouter } from 'next/navigation'
 
 const CheckoutTable = () => {
-
   const [cart, setCart] = useState<Cart>({
     cartItems: [],
-    total: 0
+    total: 0,
   })
 
   const router = useRouter()
 
   const getData = () => {
     //@ts-ignore
-    const localCart: Cart = JSON.parse(localStorage.getItem('cart'));
+    const localCart: Cart = JSON.parse(localStorage.getItem('cart'))
     if (localCart) {
       if (localCart.cartItems.length > 0) setCart(localCart)
       else router.push('/')
-    }
-    else router.push('/')
+    } else router.push('/')
   }
 
   useEffect(() => {
@@ -62,9 +60,7 @@ const CheckoutTable = () => {
         </TableRow>
       </TableFooter>
     </Table>
-
   )
-
 }
 
-export default CheckoutTable;
+export default CheckoutTable

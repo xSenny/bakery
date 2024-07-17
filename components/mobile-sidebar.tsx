@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import {Menu} from 'lucide-react'
+import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -11,18 +11,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from '@/components/ui/sheet'
 import Cart from '@/components/cart'
 
-
 const MobileSidebar = () => {
-
   const path = usePathname()
 
   return (
     <Sheet>
       <SheetTrigger>
-        <Menu className="lg:hidden"/>
+        <Menu className="lg:hidden" />
       </SheetTrigger>
       <SheetContent side="right">
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -53,15 +51,14 @@ const MobileSidebar = () => {
                 Admin
               </Link>
               <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary false">
-                <div className="h-4 w-4"/>
-                <Cart /> 
+                <div className="h-4 w-4" />
+                <Cart />
               </div>
             </nav>
           </div>
         </div>
       </SheetContent>
     </Sheet>
-
   )
 }
 

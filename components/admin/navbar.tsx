@@ -2,11 +2,10 @@
 import Link from 'next/link'
 import React from 'react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/card'
-import {Button} from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { usePathname } from 'next/navigation'
 
 const AdminNavbar = () => {
-
   const path = usePathname()
 
   return (

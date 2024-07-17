@@ -1,16 +1,16 @@
-import { Metadata } from "next";
+import { Metadata } from 'next'
 import AdminNavbar from '@/components/admin/navbar'
 import AdminHeader from '@/components/admin/header'
 import AdminContext from '@/lib/admin-auth'
 export const metadata: Metadata = {
-  title: "Bakery | Admin",
-  description: "Check and shop our products!",
-};
+  title: 'Bakery | Admin',
+  description: 'Check and shop our products!',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <main className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
@@ -20,6 +20,6 @@ export default function RootLayout({
         <AdminHeader />
         {children}
       </div>
-    </main >
-  );
+    </main>
+  )
 }

@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,17 +12,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Cart } from "@/types"
-import { createOrder } from "@/lib/actions/order.actions"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Cart } from '@/types'
+import { createOrder } from '@/lib/actions/order.actions'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Enter your full name!'),
   address: z.string().min(5, 'Enter your address!'),
-  phoneNumber: z.string().min(3, 'Enter your phone number!')
+  phoneNumber: z.string().min(3, 'Enter your phone number!'),
 })
 
 const CheckoutForm = () => {
@@ -32,7 +32,7 @@ const CheckoutForm = () => {
     defaultValues: {
       fullName: '',
       address: '',
-      phoneNumber: ''
+      phoneNumber: '',
     },
   })
 
@@ -41,11 +41,11 @@ const CheckoutForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { address, phoneNumber, fullName } = values;
+    const { address, phoneNumber, fullName } = values
 
     //@ts-ignore
     const cart: Cart = JSON.parse(window.localStorage.getItem('cart'))
-    let description = '';
+    let description = ''
     cart.cartItems.forEach((item, i) => {
       description += `${i + 1}. ${item.name} - ${item.amount}x\n`
     })
@@ -56,18 +56,18 @@ const CheckoutForm = () => {
       description,
       price: cart.total,
       status: 'Pending',
-      createdAt: new Date()
+      createdAt: new Date(),
     })
     if (!createdOrder.error) {
       toast({
-        title: 'Order created successfully'
+        title: 'Order created successfully',
       })
       router.push('/')
       window.localStorage.removeItem('cart')
     } else {
       toast({
         title: 'An error occured',
-        description: createdOrder.error as string
+        description: createdOrder.error as string,
       })
     }
   }
@@ -84,9 +84,7 @@ const CheckoutForm = () => {
               <FormControl>
                 <Input placeholder="Robert Smith" className="bg-" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your full Name
-              </FormDescription>
+              <FormDescription>This is your full Name</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -98,7 +96,11 @@ const CheckoutForm = () => {
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Input placeholder="132, My Street, Kingston, New York 12401." className="bg-" {...field} />
+                <Input
+                  placeholder="132, My Street, Kingston, New York 12401."
+                  className="bg-"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Write here where you would like us to deliver the food
@@ -116,9 +118,7 @@ const CheckoutForm = () => {
               <FormControl>
                 <Input placeholder="(555) 555-1234" className="bg-" {...field} />
               </FormControl>
-              <FormDescription>
-                How can we contact you?
-              </FormDescription>
+              <FormDescription>How can we contact you?</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -130,6 +130,5 @@ const CheckoutForm = () => {
     </Form>
   )
 }
-
 
 export default CheckoutForm

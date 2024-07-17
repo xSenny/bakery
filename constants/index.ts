@@ -1,9 +1,10 @@
 export const headerLinks = [
   {
     label: 'Home',
-    route: '/'
-  }, {
+    route: '/',
+  },
+  {
     label: 'Shop',
-    route: '/shop'
-  }
+    route: '/shop',
+  },
 ]
